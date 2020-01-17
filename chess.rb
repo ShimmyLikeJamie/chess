@@ -16,6 +16,8 @@ class Board
         @grid = Array.new(8) { Array.new(8, " ") }
         @white_graveyard = Hash.new
         @black_graveyard = Hash.new
+        @white_graveyard.default = 0
+        @black_graveyard.default = 0
         @white_turn = true
     end
 end
