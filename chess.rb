@@ -68,7 +68,7 @@ class Board
             y -= 1
             x = 0
         end
-        print "    a  b  c  d  e  f  g  h "
+        print "    a   b   c   d   e   f   g   h  "
         puts "\n\n"
     end
 
