@@ -3,7 +3,8 @@ Game will basically consist of a board object filled with game pieces, also repr
 class Board
     - Has 8x8 grid, represented by 2d array
     - Has two hashes for white & black graveyards
-    - Has #take_turn method for taking turns
+    - Has #display_board method
+    - Has #take_turn method
     - Keeps track of which player's turn it is
 end
 
