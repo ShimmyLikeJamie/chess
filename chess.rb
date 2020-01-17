@@ -1,3 +1,8 @@
+#Disabled chess unicode symbols until I can figure out how
+#to get it to display in my terminal properly (it shows "?"
+#right now for all symbols).
+
+=begin
 BLACK_KING = "\u265a".encode('utf-8')
 BLACK_QUEEN = "\u265b".encode('utf-8')
 BLACK_KNIGHT = "\u265e".encode('utf-8')
@@ -10,6 +15,20 @@ WHITE_KNIGHT = "\u2658".encode('utf-8')
 WHITE_BISHOP = "\u2657".encode('utf-8')
 WHITE_PAWN = "\u2659".encode('utf-8')
 WHITE_ROOK = "\u2656".encode('utf-8')
+=end
+
+BLACK_KING = "BK"
+BLACK_QUEEN = "BQ"
+BLACK_KNIGHT = "BK"
+BLACK_BISHOP = "BB"
+BLACK_PAWN = "BP"
+BLACK_ROOK = "BR"
+WHITE_KING = "WK"
+WHITE_QUEEN = "WQ"
+WHITE_KNIGHT = "WK"
+WHITE_BISHOP = "WB"
+WHITE_PAWN = "WP"
+WHITE_ROOK = "WR"
 
 class Board
 
@@ -28,13 +47,14 @@ class Board
         x = 0
         puts ""
         print "   "
-        print "---" * 8
+        print "---" * 10
+        print "--"
         puts ""
         until y < 0
             print " #{y} "
             until x > 7
                 if @board[x][y] == " "
-                    print "|#{@board[x][y]}|"
+                    print "| #{@board[x][y]}|"
                 else
                     print "|#{@board[x][y].piece}|"
                 end
@@ -42,7 +62,8 @@ class Board
             end
             puts ""
             print "   "
-            print "---" * 8
+            print "---" * 10
+            print "--"
             puts ""
             y -= 1
             x = 0
