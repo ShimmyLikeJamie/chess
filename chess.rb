@@ -116,16 +116,18 @@ class King #King can move one square in any direction
 end
 
 class Queen 
-    attr_accessor :tile
+    attr_accessor :tile, :valid_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
+        @directions = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
+        @valid_moves = calculate_valid_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_QUEEN : @piece = BLACK_QUEEN
     end
 end
 
 class Knight
-    attr_accessor :tile
+    attr_accessor :tile, :valid_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
@@ -134,30 +136,43 @@ class Knight
 end
 
 class Bishop
+    attr_accessor :tile, :valid_moves
     attr_reader :piece
-    attr_accessor :tile
     def initialize tile, white_piece=true
         @tile = tile
+        @directions = ["up-right", "up-left", "down-right", "down-left"]
+        @valid_moves = calculate_valid_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_BISHOP : @piece = BLACK_BISHOP
     end
 end
 
 class Rook
-    attr_accessor :tile
+    attr_accessor :tile, :valid_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
+        @directions = ["up", "right", "down", "left"]
+        @valid_moves = calculate_valid_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_ROOK : @piece = BLACK_BISHOP
     end
 end
 
 class Pawn
     attr_reader :piece
-    attr_accessor :tile
+    attr_accessor :tile, :valid_moves
     def initialize tile, white_piece=true
         @tile = tile
+        if white_piece
+            @directions = ["up"]
+        else
+            @directions = ["down"]
+        end
+        @valid_moves = calculate_valid_moves(@tile, @directions)
         white_piece ? @piece = WHITE_PAWN : @piece = BLACK_PAWN
     end
+end
+
+def calculate_knight_valid_moves
 end
 
 def calculate_valid_moves tile, directions, can_move_farther_than_one_square=false
@@ -168,7 +183,6 @@ def calculate_valid_moves tile, directions, can_move_farther_than_one_square=fal
     else
         range = 1
     end
-
     current_spot = tile_to_indices(tile)
     until range == 0
         until directions_copy.empty?
