@@ -114,52 +114,37 @@ class King
 
     #King can move one square in any direction
     def calculate_valid_moves
+        @valid_moves = []
         current_spot = tile_to_indices(@tile)
-        current_move = []
-        current_move << current_spot[0] + 1
-        current_move << current_spot[1]
+        current_move = [current_spot[0] + 1, current_spot[1]]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
-        current_move = []
-        current_move << current_spot[0] + 1
-        current_move << current_spot[1] - 1
+        current_move = [current_spot[0] + 1, current_spot[1] - 1]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
-        current_move = []
-        current_move << current_spot[0]
-        current_move << current_spot[1] - 1
+        current_move = [current_spot[0], current_spot[1] - 1]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
-        current_move = []
-        current_move << current_spot[0] - 1
-        current_move << current_spot[1] - 1
+        current_move = [current_spot[0] - 1, current_spot[1] - 1]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
-        current_move = []
-        current_move << current_spot[0] - 1
-        current_move << current_spot[1]
+        current_move = [current_spot[0] - 1, current_spot[1]]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
-        current_move = []
-        current_move << current_spot[0] - 1
-        current_move << current_spot[1] + 1
+        current_move = [current_spot[0] - 1, current_spot[1] + 1]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
-        current_move = []
-        current_move << current_spot[0]
-        current_move << current_spot[1] + 1
+        current_move = [current_spot[0], current_spot[1] + 1]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
-        current_move = []
-        current_move << current_spot[0] + 1
-        current_move << current_spot[1] + 1
+        current_move = [current_spot[0] + 1, current_spot[1] + 1]
         unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
             @valid_moves << current_move
         end
