@@ -40,6 +40,7 @@ class Board
         @white_graveyard.default = 0
         @black_graveyard.default = 0
         @white_turn = true
+        @winner = false
     end
 
     def display_board
@@ -70,6 +71,9 @@ class Board
         end
         print "    a   b   c   d   e   f   g   h  "
         puts "\n\n"
+    end
+
+    def take_turn
     end
 
     private
@@ -103,7 +107,12 @@ class King
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
+        @valid_moves = self.calculate_valid_moves
         white_piece ? @piece = WHITE_KING : @piece = BLACK_KING
+    end
+
+    #King can move one square in any direction
+    def calculate_valid_moves
     end
 end
 
@@ -150,6 +159,90 @@ class Pawn
         @tile = tile
         white_piece ? @piece = WHITE_PAWN : @piece = BLACK_PAWN
     end
+end
+
+def tile_to_indices tile
+    x, y = 0
+    case tile[0]
+    when "a"
+        x = 0
+    when "b"
+        x = 1
+    when "c"
+        x = 2
+    when "d"
+        x = 3
+    when "e"
+        x = 4
+    when "f"
+        x = 5
+    when "g"
+        x = 6
+    when "h"
+        x = 7
+    end
+
+    case tile[1]
+    when "1"
+        y = 0
+    when "2"
+        y = 1
+    when "3"
+        y = 2
+    when "4"
+        y = 3
+    when "5"
+        y = 4
+    when "6"
+        y = 5
+    when "7"
+        y = 6
+    when "8"
+        y = 7
+    end
+    x, y
+end
+
+def indices_to_tile x, y
+    tile = ""
+    case x
+    when 0
+        tile << "a"
+    when 1
+        tile << "b"
+    when 2
+        tile << "c"
+    when 3
+        tile << "d"
+    when 4
+        tile << "e"
+    when 5
+        tile << "f"
+    when 6
+        tile << "g"
+    when 7
+        tile << "h"
+    end
+
+    case y
+    when 0
+        tile << "1"
+    when 1
+        tile << "2"
+    when 2
+        tile << "3"
+    when 3
+        tile << "4"
+    when 4
+        tile << "5"
+    when 5
+        tile << "6"
+    when 6
+        tile << "7"
+    when 7
+        tile << "8"
+    end
+    tile
 end
 
 game = Board.new
