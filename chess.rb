@@ -1,3 +1,5 @@
+require 'pry'
+
 #Disabled chess unicode symbols until I can figure out how
 #to get it to display in my terminal properly (it shows "?"
 #right now for all symbols).
@@ -102,56 +104,18 @@ class Board
     end
 end
 
-class King
+class King #King can move one square in any direction
     attr_accessor :tile, :valid_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
-        @valid_moves = []
-        self.calculate_valid_moves
+        @directions = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
+        @valid_moves = calculate_valid_moves(@tile, @directions)
         white_piece ? @piece = WHITE_KING : @piece = BLACK_KING
-    end
-
-    #King can move one square in any direction
-    def calculate_valid_moves
-        @valid_moves = []
-        current_spot = tile_to_indices(@tile)
-        current_move = [current_spot[0] + 1, current_spot[1]]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
-        current_move = [current_spot[0] + 1, current_spot[1] - 1]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
-        current_move = [current_spot[0], current_spot[1] - 1]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
-        current_move = [current_spot[0] - 1, current_spot[1] - 1]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
-        current_move = [current_spot[0] - 1, current_spot[1]]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
-        current_move = [current_spot[0] - 1, current_spot[1] + 1]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
-        current_move = [current_spot[0], current_spot[1] + 1]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
-        current_move = [current_spot[0] + 1, current_spot[1] + 1]
-        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            @valid_moves << current_move
-        end
     end
 end
 
-class Queen
+class Queen 
     attr_accessor :tile
     attr_reader :piece
     def initialize tile, white_piece=true
@@ -194,6 +158,64 @@ class Pawn
         @tile = tile
         white_piece ? @piece = WHITE_PAWN : @piece = BLACK_PAWN
     end
+end
+
+def calculate_valid_moves tile, directions, can_move_farther_than_one_square=false
+    valid_moves = []
+    directions_copy = directions
+    if can_move_farther_than_one_square
+        range = 8
+    else
+        range = 1
+    end
+
+    current_spot = tile_to_indices(tile)
+    until directions_copy.empty? && range == 0
+        case directions_copy.shift
+        when "right"
+            current_move = [(current_spot[0] + 1)*range, current_spot[1]]
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                valid_moves << current_move
+            end
+        when "down-right" 
+            current_move = [(current_spot[0] + 1)*range, (current_spot[1] - 1)*range]
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                valid_moves << current_move
+            end
+        when "down"
+            current_move = [current_spot[0], (current_spot[1] - 1)*range] 
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                valid_moves << current_move
+            end
+        when "down-left"
+            current_move = [(current_spot[0] - 1)*range, (current_spot[1] - 1)*range]
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                valid_moves << current_move
+            end
+        when "left"
+            current_move = [(current_spot[0] - 1)*range, current_spot[1]]
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                valid_moves << current_move
+            end
+        when "up-left"
+            current_move = [(current_spot[0] - 1)*range, (current_spot[1] + 1)*range]
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                valid_moves << current_move
+            end
+        when "up" 
+            current_move = [current_spot[0], (current_spot[1] + 1)*range]
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            valid_moves << current_move
+            end
+        when "up-right"
+            current_move = [(current_spot[0] + 1)*range, (current_spot[1] + 1)*range] 
+            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                valid_moves << current_move
+            end
+        end
+        range -= 1
+    end
+    valid_moves
 end
 
 def tile_to_indices tile
@@ -281,4 +303,5 @@ def indices_to_tile x, y
 end
 
 game = Board.new
+#binding.pry
 game.display_board
