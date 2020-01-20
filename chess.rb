@@ -170,50 +170,53 @@ def calculate_valid_moves tile, directions, can_move_farther_than_one_square=fal
     end
 
     current_spot = tile_to_indices(tile)
-    until directions_copy.empty? && range == 0
-        case directions_copy.shift
-        when "right"
-            current_move = [(current_spot[0] + 1)*range, current_spot[1]]
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+    until range == 0
+        until directions_copy.empty?
+            case directions_copy.shift
+            when "right"
+                current_move = [(current_spot[0] + 1)*range, current_spot[1]]
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                    valid_moves << current_move
+                end
+            when "down-right" 
+                current_move = [(current_spot[0] + 1)*range, (current_spot[1] - 1)*range]
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                    valid_moves << current_move
+                end
+            when "down"
+                current_move = [current_spot[0], (current_spot[1] - 1)*range] 
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                    valid_moves << current_move
+                end
+            when "down-left"
+                current_move = [(current_spot[0] - 1)*range, (current_spot[1] - 1)*range]
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                    valid_moves << current_move
+                end
+            when "left"
+                current_move = [(current_spot[0] - 1)*range, current_spot[1]]
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                    valid_moves << current_move
+                end
+            when "up-left"
+                current_move = [(current_spot[0] - 1)*range, (current_spot[1] + 1)*range]
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                    valid_moves << current_move
+                end
+            when "up" 
+                current_move = [current_spot[0], (current_spot[1] + 1)*range]
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
                 valid_moves << current_move
-            end
-        when "down-right" 
-            current_move = [(current_spot[0] + 1)*range, (current_spot[1] - 1)*range]
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                valid_moves << current_move
-            end
-        when "down"
-            current_move = [current_spot[0], (current_spot[1] - 1)*range] 
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                valid_moves << current_move
-            end
-        when "down-left"
-            current_move = [(current_spot[0] - 1)*range, (current_spot[1] - 1)*range]
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                valid_moves << current_move
-            end
-        when "left"
-            current_move = [(current_spot[0] - 1)*range, current_spot[1]]
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                valid_moves << current_move
-            end
-        when "up-left"
-            current_move = [(current_spot[0] - 1)*range, (current_spot[1] + 1)*range]
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                valid_moves << current_move
-            end
-        when "up" 
-            current_move = [current_spot[0], (current_spot[1] + 1)*range]
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-            valid_moves << current_move
-            end
-        when "up-right"
-            current_move = [(current_spot[0] + 1)*range, (current_spot[1] + 1)*range] 
-            unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                valid_moves << current_move
+                end
+            when "up-right"
+                current_move = [(current_spot[0] + 1)*range, (current_spot[1] + 1)*range] 
+                unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+                    valid_moves << current_move
+                end
             end
         end
         range -= 1
+        directions_copy = directions
     end
     valid_moves
 end
@@ -303,5 +306,4 @@ def indices_to_tile x, y
 end
 
 game = Board.new
-#binding.pry
 game.display_board
