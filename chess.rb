@@ -103,16 +103,66 @@ class Board
 end
 
 class King
-    attr_accessor :tile
+    attr_accessor :tile, :valid_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
-        @valid_moves = self.calculate_valid_moves
+        @valid_moves = []
+        self.calculate_valid_moves
         white_piece ? @piece = WHITE_KING : @piece = BLACK_KING
     end
 
     #King can move one square in any direction
     def calculate_valid_moves
+        current_spot = tile_to_indices(@tile)
+        current_move = []
+        current_move << current_spot[0] + 1
+        current_move << current_spot[1]
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
+        current_move = []
+        current_move << current_spot[0] + 1
+        current_move << current_spot[1] - 1
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
+        current_move = []
+        current_move << current_spot[0]
+        current_move << current_spot[1] - 1
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
+        current_move = []
+        current_move << current_spot[0] - 1
+        current_move << current_spot[1] - 1
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
+        current_move = []
+        current_move << current_spot[0] - 1
+        current_move << current_spot[1]
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
+        current_move = []
+        current_move << current_spot[0] - 1
+        current_move << current_spot[1] + 1
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
+        current_move = []
+        current_move << current_spot[0]
+        current_move << current_spot[1] + 1
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
+        current_move = []
+        current_move << current_spot[0] + 1
+        current_move << current_spot[1] + 1
+        unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
+            @valid_moves << current_move
+        end
     end
 end
 
@@ -200,7 +250,7 @@ def tile_to_indices tile
     when "8"
         y = 7
     end
-    return x, y
+    return [x,y]
 end
 
 def indices_to_tile x, y
