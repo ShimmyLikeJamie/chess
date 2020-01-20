@@ -33,7 +33,7 @@ WHITE_PAWN = "WP"
 WHITE_ROOK = "WR"
 
 class Board
-
+    attr_reader :board
     def initialize
         @board = Array.new(8) { Array.new(8, " ") }
         self.new_board
@@ -54,7 +54,7 @@ class Board
         print "--"
         puts ""
         until y < 0
-            print " #{y} "
+            print " #{y+1} "
             until x > 7
                 if @board[x][y] == " "
                     print "| #{@board[x][y]}|"
@@ -105,29 +105,29 @@ class Board
 end
 
 class King #King can move one square in any direction
-    attr_accessor :tile, :valid_moves
+    attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
         @directions = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
-        @valid_moves = calculate_valid_moves(@tile, @directions)
+        @possible_moves = calculate_possible_moves(@tile, @directions)
         white_piece ? @piece = WHITE_KING : @piece = BLACK_KING
     end
 end
 
 class Queen 
-    attr_accessor :tile, :valid_moves
+    attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
         @directions = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
-        @valid_moves = calculate_valid_moves(@tile, @directions, true)
+        @possible_moves = calculate_possible_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_QUEEN : @piece = BLACK_QUEEN
     end
 end
 
 class Knight
-    attr_accessor :tile, :valid_moves
+    attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
@@ -136,30 +136,30 @@ class Knight
 end
 
 class Bishop
-    attr_accessor :tile, :valid_moves
+    attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
         @directions = ["up-right", "up-left", "down-right", "down-left"]
-        @valid_moves = calculate_valid_moves(@tile, @directions, true)
+        @possible_moves = calculate_possible_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_BISHOP : @piece = BLACK_BISHOP
     end
 end
 
 class Rook
-    attr_accessor :tile, :valid_moves
+    attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
         @directions = ["up", "right", "down", "left"]
-        @valid_moves = calculate_valid_moves(@tile, @directions, true)
+        @possible_moves = calculate_possible_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_ROOK : @piece = BLACK_BISHOP
     end
 end
 
 class Pawn
     attr_reader :piece
-    attr_accessor :tile, :valid_moves
+    attr_accessor :tile, :possible_moves
     def initialize tile, white_piece=true
         @tile = tile
         if white_piece
@@ -167,16 +167,24 @@ class Pawn
         else
             @directions = ["down"]
         end
-        @valid_moves = calculate_valid_moves(@tile, @directions)
+        @possible_moves = calculate_possible_moves(@tile, @directions)
         white_piece ? @piece = WHITE_PAWN : @piece = BLACK_PAWN
     end
 end
 
-def calculate_knight_valid_moves
+def calculate_knight_possible_moves
 end
 
-def calculate_valid_moves tile, directions, can_move_farther_than_one_square=false
+def verify_moves possible_moves
     valid_moves = []
+    until possible_moves.empty?
+        current_move = possible_moves.shift
+        current_tile = game.board[current_move[0]][current_move[1]]
+    end
+end
+
+def calculate_possible_moves tile, directions, can_move_farther_than_one_square=false
+    possible_moves = []
     directions_copy = directions
     if can_move_farther_than_one_square
         range = 8
@@ -190,49 +198,49 @@ def calculate_valid_moves tile, directions, can_move_farther_than_one_square=fal
             when "right"
                 current_move = [(current_spot[0] + 1)*range, current_spot[1]]
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                    valid_moves << current_move
+                    possible_moves << current_move
                 end
             when "down-right" 
                 current_move = [(current_spot[0] + 1)*range, (current_spot[1] - 1)*range]
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                    valid_moves << current_move
+                    possible_moves << current_move
                 end
             when "down"
                 current_move = [current_spot[0], (current_spot[1] - 1)*range] 
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                    valid_moves << current_move
+                    possible_moves << current_move
                 end
             when "down-left"
                 current_move = [(current_spot[0] - 1)*range, (current_spot[1] - 1)*range]
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                    valid_moves << current_move
+                    possible_moves << current_move
                 end
             when "left"
                 current_move = [(current_spot[0] - 1)*range, current_spot[1]]
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                    valid_moves << current_move
+                    possible_moves << current_move
                 end
             when "up-left"
                 current_move = [(current_spot[0] - 1)*range, (current_spot[1] + 1)*range]
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                    valid_moves << current_move
+                    possible_moves << current_move
                 end
             when "up" 
                 current_move = [current_spot[0], (current_spot[1] + 1)*range]
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                valid_moves << current_move
+                possible_moves << current_move
                 end
             when "up-right"
                 current_move = [(current_spot[0] + 1)*range, (current_spot[1] + 1)*range] 
                 unless current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7
-                    valid_moves << current_move
+                    possible_moves << current_move
                 end
             end
         end
         range -= 1
         directions_copy = directions
     end
-    valid_moves
+    possible_moves
 end
 
 def tile_to_indices tile
