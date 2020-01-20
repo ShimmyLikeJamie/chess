@@ -200,7 +200,7 @@ def tile_to_indices tile
     when "8"
         y = 7
     end
-    x, y
+    return x, y
 end
 
 def indices_to_tile x, y
