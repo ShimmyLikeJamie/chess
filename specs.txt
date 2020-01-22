@@ -1,16 +1,16 @@
 Game will basically consist of a board object filled with game pieces, also represented as objects
 
 class Board
-    - Has 8x8 grid, represented by 2d array
+    x Has 8x8 grid, represented by 2d array 
     - Has two hashes for white & black graveyards
-    - Has #display_board method
+    x Has #display_board method
     - Has #take_turn method
     - Keeps track of which player's turn it is
 end
 
 class Game_Piece
-    - Has tile variable showing what tile of the board it's on
-    - Different class per game piece type
+    x Has tile variable showing what tile of the board it's on
+    x Different class per game piece type
     - Each one will have a set of valid moves in an array which will be displayed to the player
     - Valid moves are calculated after every move by using the tile it's on with its moveset
 end
@@ -18,3 +18,4 @@ end
 - Game simply is a loop until a player wins (king is taken or has no valid moves)
 - If only two kings remain, game is a stalemate
 - You should be able to bring back a piece from your graveyard if a pawn makes it to the end row
+- Pawns can move forward two spaces at the beginning
