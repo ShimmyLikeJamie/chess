@@ -153,9 +153,13 @@ class King #King can move one square in any direction
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
+        @possible_moves = []
         @directions = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
-        #@possible_moves = calculate_possible_moves(@tile, @directions)
         white_piece ? @piece = WHITE_KING : @piece = BLACK_KING
+    end
+
+    def list_moves
+        @possible_moves = Board.calculate_possible_moves(@tile, @directions)
     end
 end
 
@@ -165,8 +169,11 @@ class Queen
     def initialize tile, white_piece=true
         @tile = tile
         @directions = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"]
-        #@possible_moves = Board.calculate_possible_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_QUEEN : @piece = BLACK_QUEEN
+    end
+
+    def list_moves
+        @possible_moves = Board.calculate_possible_moves(@tile, @directions, true)
     end
 end
 
@@ -185,8 +192,11 @@ class Bishop
     def initialize tile, white_piece=true
         @tile = tile
         @directions = ["up-right", "up-left", "down-right", "down-left"]
-        #@possible_moves = calculate_possible_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_BISHOP : @piece = BLACK_BISHOP
+    end
+
+    def list_moves
+        @possible_moves = Board.calculate_possible_moves(@tile, @directions, true)
     end
 end
 
@@ -196,8 +206,11 @@ class Rook
     def initialize tile, white_piece=true
         @tile = tile
         @directions = ["up", "right", "down", "left"]
-        #@possible_moves = calculate_possible_moves(@tile, @directions, true)
         white_piece ? @piece = WHITE_ROOK : @piece = BLACK_BISHOP
+    end
+
+    def list_moves
+        @possible_moves = Board.calculate_possible_moves(@tile, @directions, true)
     end
 end
 
@@ -211,19 +224,11 @@ class Pawn
         else
             @directions = ["down"]
         end
-        #@possible_moves = calculate_possible_moves(@tile, @directions)
         white_piece ? @piece = WHITE_PAWN : @piece = BLACK_PAWN
     end
-end
-
-def calculate_knight_possible_moves
-end
-
-def verify_moves possible_moves
-    valid_moves = []
-    until possible_moves.empty?
-        current_move = possible_moves.shift
-        current_tile = game.board[current_move[0]][current_move[1]]
+    
+    def list_moves
+        @possible_moves = Board.calculate_possible_moves(@tile, @directions)
     end
 end
 
@@ -311,5 +316,6 @@ def indices_to_tile x, y
     tile
 end
 
+#driver/test script
 game = Board.new
 game.display_board
