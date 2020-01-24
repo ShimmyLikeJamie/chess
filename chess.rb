@@ -85,24 +85,23 @@ class Board
             until reached_end_of_path
                 case direction
                 when "right"
-                    current_move = [(coords[0] + 1)*range, coords[1]]
+                    current_move = [coords[0] + range, coords[1]]
                 when "down-right" 
-                    current_move = [(coords[0] + 1)*range, (coords[1] - 1)*range]
+                    current_move = [coords[0] + range, coords[1] - range]
                 when "down"
-                    current_move = [coords[0], (coords[1] - 1)*range] 
+                    current_move = [coords[0], coords[1] - range] 
                 when "down-left"
-                    current_move = [(coords[0] - 1)*range, (coords[1] - 1)*range]
+                    current_move = [coords[0] - range, coords[1] - range]
                 when "left"
-                    current_move = [(coords[0] - 1)*range, coords[1]]
+                    current_move = [coords[0] - range, coords[1]]
                 when "up-left"
-                    current_move = [(coords[0] - 1)*range, (coords[1] + 1)*range]
+                    current_move = [coords[0] - range, coords[1] + range]
                 when "up" 
                     current_move = [coords[0], (coords[1] + 1)*range]
                 when "up-right"
-                    current_move = [(coords[0] + 1)*range, (coords[1] + 1)*range] 
+                    current_move = [coords[0] + range, coords[1] + range] 
                 end
-                if current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7 ||
-                    @board[current_move[0]][current_move[1]] != " " 
+                if Board.out_of_bounds?(current_move[0], current_move[1])
                     reached_end_of_path = true
                     range = 1
                 else
@@ -120,7 +119,24 @@ class Board
     end
 
     def self.calculate_knight_moves tile
+        possible_moves = []
+        coords = tile_to_indices(tile)
+        possible_moves << [coords[0] + 1, coords[1] + 2] unless Board.out_of_bounds?(coords[0] + 1, coords[1] + 2)
+        possible_moves << [coords[0] + 2, coords[1] + 1] unless Board.out_of_bounds?(coords[0] + 2, coords[1] + 1)
+        possible_moves << [coords[0] + 2, coords[1] - 1] unless Board.out_of_bounds?(coords[0] + 2, coords[1] - 1)
+        possible_moves << [coords[0] + 1, coords[1] - 2] unless Board.out_of_bounds?(coords[0] + 1, coords[1] - 2)
+        possible_moves << [coords[0] - 1, coords[1] - 2] unless Board.out_of_bounds?(coords[0] - 1, coords[1] - 2)
+        possible_moves << [coords[0] - 2, coords[1] - 1] unless Board.out_of_bounds?(coords[0] - 2, coords[1] - 1)
+        possible_moves << [coords[0] - 2, coords[1] + 1] unless Board.out_of_bounds?(coords[0] - 2, coords[1] + 1)
+        possible_moves << [coords[0] - 1, coords[1] + 2] unless Board.out_of_bounds?(coords[0] + 1, coords[1] + 2)
+    end
 
+    def self.out_of_bounds? x, y
+        if x < 0 || x > 7 || y < 0 || y > 7 || @board[x][y] != " "
+            return true
+        else
+            return false
+        end
     end
 
     def take_turn
