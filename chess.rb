@@ -119,6 +119,10 @@ class Board
         possible_moves
     end
 
+    def self.calculate_knight_moves
+
+    end
+
     def take_turn
     end
 
@@ -148,7 +152,7 @@ class Board
     end
 end
 
-class King #King can move one square in any direction
+class King #can move one square in any direction
     attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
@@ -163,7 +167,7 @@ class King #King can move one square in any direction
     end
 end
 
-class Queen 
+class Queen #can move any number of squares in all directions
     attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
@@ -177,16 +181,20 @@ class Queen
     end
 end
 
-class Knight
+class Knight #can move in an "L" shape
     attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
         @tile = tile
         white_piece ? @piece = WHITE_KNIGHT : @piece = BLACK_KNIGHT
     end
+
+    def list_moves
+        @possible_moves = Board.calculate_knight_moves(@tile)
+    end
 end
 
-class Bishop
+class Bishop #can move any number of squares diagonally
     attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
@@ -200,7 +208,7 @@ class Bishop
     end
 end
 
-class Rook
+class Rook #can move any number of squares vertically or horizontally
     attr_accessor :tile, :possible_moves
     attr_reader :piece
     def initialize tile, white_piece=true
@@ -214,7 +222,7 @@ class Rook
     end
 end
 
-class Pawn
+class Pawn #can move one square forward, has the option to move two squares on the first turn
     attr_reader :piece
     attr_accessor :tile, :possible_moves
     def initialize tile, white_piece=true
