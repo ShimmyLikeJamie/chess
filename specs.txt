@@ -2,7 +2,7 @@ Game will basically consist of a board object filled with game pieces, also repr
 
 class Board
     x Has 8x8 grid, represented by 2d array 
-    - Has two hashes for white & black graveyards
+    x Has two hashes for white & black graveyards
     x Has #display_board method
     - Has #take_turn method
     - Keeps track of which player's turn it is
@@ -13,7 +13,7 @@ class Game_Piece
     x Different class per game piece type
     - Each one will have a set of valid moves in an array which will be displayed to the player
     x Valid moves are calculated after before every move by using the tile it's on with its moveset
-    - Knight will need its own method to calculate valid moves since it moves in an "L" shape
+    x Knight will need its own method to calculate valid moves since it moves in an "L" shape
 end
 
 - Game simply is a loop until a player wins (king is taken or has no valid moves)
