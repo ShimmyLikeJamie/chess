@@ -12,7 +12,8 @@ class Game_Piece
     x Has tile variable showing what tile of the board it's on
     x Different class per game piece type
     - Each one will have a set of valid moves in an array which will be displayed to the player
-    - Valid moves are calculated after every move by using the tile it's on with its moveset
+    x Valid moves are calculated after before every move by using the tile it's on with its moveset
+    - Knight will need its own method to calculate valid moves since it moves in an "L" shape
 end
 
 - Game simply is a loop until a player wins (king is taken or has no valid moves)
