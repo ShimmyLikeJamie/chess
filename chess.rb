@@ -79,27 +79,27 @@ class Board
         possible_moves = []
         range = 1
         reached_end_of_path = false
-        current_spot = tile_to_indices(tile)
+        coords = tile_to_indices(tile)
         until directions.empty?
             direction = directions.shift
             until reached_end_of_path
                 case direction
                 when "right"
-                    current_move = [(current_spot[0] + 1)*range, current_spot[1]]
+                    current_move = [(coords[0] + 1)*range, coords[1]]
                 when "down-right" 
-                    current_move = [(current_spot[0] + 1)*range, (current_spot[1] - 1)*range]
+                    current_move = [(coords[0] + 1)*range, (coords[1] - 1)*range]
                 when "down"
-                    current_move = [current_spot[0], (current_spot[1] - 1)*range] 
+                    current_move = [coords[0], (coords[1] - 1)*range] 
                 when "down-left"
-                    current_move = [(current_spot[0] - 1)*range, (current_spot[1] - 1)*range]
+                    current_move = [(coords[0] - 1)*range, (coords[1] - 1)*range]
                 when "left"
-                    current_move = [(current_spot[0] - 1)*range, current_spot[1]]
+                    current_move = [(coords[0] - 1)*range, coords[1]]
                 when "up-left"
-                    current_move = [(current_spot[0] - 1)*range, (current_spot[1] + 1)*range]
+                    current_move = [(coords[0] - 1)*range, (coords[1] + 1)*range]
                 when "up" 
-                    current_move = [current_spot[0], (current_spot[1] + 1)*range]
+                    current_move = [coords[0], (coords[1] + 1)*range]
                 when "up-right"
-                    current_move = [(current_spot[0] + 1)*range, (current_spot[1] + 1)*range] 
+                    current_move = [(coords[0] + 1)*range, (coords[1] + 1)*range] 
                 end
                 if current_move[0] < 0 || current_move[0] > 7 || current_move[1] < 0 || current_move[1] > 7 ||
                     @board[current_move[0]][current_move[1]] != " " 
@@ -119,7 +119,7 @@ class Board
         possible_moves
     end
 
-    def self.calculate_knight_moves
+    def self.calculate_knight_moves tile
 
     end
 
